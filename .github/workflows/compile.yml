@@ -1,0 +1,26 @@
+name: compile examples
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        fqbn:
+          - esp32:esp32:esp32
+          - esp32:esp32:esp32c3
+          - esp32:esp32:esp32s2
+          - esp32:esp32:esp32s3
+          - esp32:esp32:esp32c6
+    steps:
+      - uses: actions/checkout@v4
+      - uses: arduino/setup-arduino-cli@v2
+      - run: arduino-cli config init
+      - run: arduino-cli core update-index
+      - run: arduino-cli core install esp32:esp32@3.3.10
+      - run: arduino-cli lib install "WiFiManager@2.0.17"
+      - run: arduino-cli compile --fqbn ${{ matrix.fqbn }} --library . examples/ConsoleOnly
+      - run: arduino-cli compile --fqbn ${{ matrix.fqbn }} --library . examples/WiFiOtaConsole
