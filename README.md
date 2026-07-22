@@ -9,6 +9,13 @@ The library targets the Arduino ESP32 3.x core. It is useful when an ESP32 is
 powered in place and connecting a USB cable for every diagnostic session is
 inconvenient.
 
+## Upgrading from 0.1.0
+
+Version 0.1.1 fixes saved Wi-Fi detection on ESP32. Version 0.1.0 could check
+for credentials before the station driver was initialized, incorrectly continue
+offline, and consequently leave the TCP console and OTA unavailable. Existing
+credentials in NVS are preserved and are detected after upgrading.
+
 ## Features
 
 - `Print`-compatible output mirrored to USB and raw TCP.
