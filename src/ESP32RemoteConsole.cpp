@@ -259,7 +259,6 @@ WiFiOtaManager::WiFiOtaManager(Stream &usb, RemoteConsole &console,
 NetworkState WiFiOtaManager::begin(const OtaCallbacks &callbacks) {
   callbacks_ = callbacks;
   chooseHostname();
-  had_saved_credentials_ = wifi_manager_.getWiFiIsSaved();
 
   if (connectSavedNetwork()) {
     startNetworkServices();
@@ -376,6 +375,11 @@ bool WiFiOtaManager::connectSavedNetwork() {
   applyTxPower();
   WiFi.setHostname(hostname_.c_str());
   WiFi.setAutoReconnect(true);
+
+  // WiFiManager reads the saved station configuration through esp_wifi.
+  // The ESP32 Wi-Fi driver must be initialized first or the query can report
+  // that no credentials exist even though they are still present in NVS.
+  had_saved_credentials_ = wifi_manager_.getWiFiIsSaved();
 
   if (!had_saved_credentials_) {
     console_.println(F("No saved Wi-Fi credentials."));

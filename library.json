@@ -1,6 +1,6 @@
 {
   "name": "ESP32RemoteConsole",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "USB serial mirroring to a raw TCP console with optional Wi-Fi provisioning and ArduinoOTA for ESP32.",
   "keywords": ["esp32", "serial", "console", "tcp", "ota", "wifimanager"],
   "repository": {
